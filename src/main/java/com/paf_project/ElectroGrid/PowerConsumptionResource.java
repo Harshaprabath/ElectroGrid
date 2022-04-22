@@ -14,7 +14,6 @@ import jakarta.ws.rs.core.MediaType;
 public class PowerConsumptionResource {
 
 	 @GET
-	 //@Produces(MediaType.APPLICATION_XML)
 	 @Produces(MediaType.APPLICATION_JSON)
 	 public PowerConsumption getIt() {
 		 
@@ -27,6 +26,7 @@ public class PowerConsumptionResource {
 		 
 		 return pc;
      }
+	 
 	
 	
 }
