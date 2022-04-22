@@ -12,7 +12,7 @@ public class PowerConsumption {
 	private String customer_ID;
 	private double value;
 	private Date date;
-//git 
+
 	public String getId() {
 		return id;
 	}
