@@ -1,24 +1,20 @@
-package com.paf_project.ElectroGrid;
+package com.paf_project.ElectroGrid.Business;
 
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.paf_project.ElectroGrid.Model.User;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.MediaType;
-
-@Path("user")
-public class UserResource {
-	  
-		@GET
-	    @Produces(MediaType.APPLICATION_JSON)
-	    public List <User> getUser() 
-		{		  		  
-		  User user = new User();
+public class UserService 
+{
+	
+	List<User> users;
+	
+	public UserService() {
+		
+		users = new ArrayList<>();
+		
+		User user = new User();
 		  user.setUserId("1");
 		  user.setName("Amal");
 		  user.setNic("123");
@@ -36,10 +32,14 @@ public class UserResource {
 		  user1.setEmail("kamal@gmail.com");
 		  user1.setPassword("321");
 		  
-		  
-		  List <User> users = Arrays.asList(user,user1);
-		  
-		  return users;       
-	    }
+		  users.add(user);
+		  users.add(user1);
+		
+	}
 	
+	public List<User> getUsers()
+	{
+		return users;
+	}
+
 }
