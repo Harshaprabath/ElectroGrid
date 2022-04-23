@@ -59,6 +59,15 @@ public class UserResource {
 	public User updateUser(User user)
 	{		
 		 System.out.println(user);
+		 if (Uservice.getUser(user.getUserId()).getUserId()==0)
+		 {
+			 Uservice.addUser(user);
+		 }
+		 else
+		 {
+			 Uservice.updateUser(user);
+		 }
+		 
 		 Uservice.updateUser(user);
 		 return user;
 	}
