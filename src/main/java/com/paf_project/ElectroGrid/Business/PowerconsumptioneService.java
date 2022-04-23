@@ -4,10 +4,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.paf_project.ElectroGrid.Calculetions.PowerConsumptionUnitsValue;
 import com.paf_project.ElectroGrid.DBcontext.DatabaseConnection;
 import com.paf_project.ElectroGrid.DBcontext.IDBContex;
 import com.paf_project.ElectroGrid.Model.PowerConsumption;
 import com.paf_project.ElectroGrid.Model.UnitValue;
+
+import java.time.LocalDateTime;  
+import java.time.format.DateTimeFormatter;
 
 public class PowerconsumptioneService {
 	
@@ -24,7 +28,7 @@ public class PowerconsumptioneService {
 		
 	}
 	
-	
+	//get all power consumption
 	public List<PowerConsumption> getAll(){
 			
 		List<PowerConsumption> powerConsumptions = new ArrayList<PowerConsumption>();
@@ -35,7 +39,7 @@ public class PowerconsumptioneService {
 			while (resultSet.next()) {
 					PowerConsumption powerConsumption = new PowerConsumption();
 					powerConsumption.setId(resultSet.getInt(1));
-					powerConsumption.setCustomer_ID(resultSet.getString(2));
+					powerConsumption.setCustomer_ID(resultSet.getInt(2));
 					powerConsumption.setValue(resultSet.getDouble(3));
 					powerConsumption.setDate(resultSet.getString(4));
 					
@@ -43,13 +47,43 @@ public class PowerconsumptioneService {
 					powerConsumptions.add(powerConsumption);
 				}
 				
-			} catch (Exception e) {
+		} catch (Exception e) {
 				System.out.println(e);
-			}
+		}
 			
 		return powerConsumptions;
 	}
+	
+	
+	public String addPowerDetails(PowerConsumption powerConsumption) {
+		PowerConsumptionUnitsValue pcu = new PowerConsumptionUnitsValue();
+		String response = null;
 		
+		String sql = "insert into powerconsumption value (?,?,?,?)";
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1,	powerConsumption.getId());
+			preparedStatement.setInt(2,	powerConsumption.getCustomer_ID());
+			preparedStatement.setDouble(3,	pcu.calUnitsValue(powerConsumption.getUnits()));
+			preparedStatement.setString(4,java.time.LocalDate.now().toString());
+			
+				
+			preparedStatement.executeUpdate();
+			
+			response =  "successfuly inserted\n" 
+						+"Custermer ID: "+ powerConsumption.getCustomer_ID()+"\n" 
+						+"Current Units Value: "+ pcu.calUnitsValue(powerConsumption.getUnits())+"\n"
+						+"Date: "+ java.time.LocalDate.now().toString()+"\n";
+				
+		} catch (Exception e) {
+			System.out.println("fff");
+			System.out.println(e);
+		}
+		
+		return response;
+	}
+	
+	
 	public List<UnitValue> getAllUnitValue(){
 			
 		List<UnitValue> unitValues = new ArrayList<UnitValue>();
@@ -68,12 +102,13 @@ public class PowerconsumptioneService {
 				unitValues.add(unitValue);
 			}
 				
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			
-			return unitValues;
+		} catch (Exception e) {
+			System.out.println(e);
 		}
+			
+		return unitValues;
+	}
+	
 	
 	public String updateUnitValue(UnitValue uv){
 		

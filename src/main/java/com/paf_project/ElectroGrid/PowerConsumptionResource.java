@@ -9,6 +9,7 @@ import java.util.List;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -40,12 +41,19 @@ public class PowerConsumptionResource {
 	 @PUT
 	 @Path ("update-unit-value")
 	 @Consumes (MediaType.APPLICATION_JSON)
-	 public String updaUser( UnitValue UnitValue) {
+	 public String updateUnitValue( UnitValue UnitValue) {
 			
 		 return powerconsumptioneService.updateUnitValue(UnitValue);
 		
 	 }
 	 
-	
+	 @POST
+	 @Path ("add-powerDetails")
+	 @Consumes (MediaType.APPLICATION_JSON)
+	 public String addPowerDetails(PowerConsumption powerConsumption ) {
+		 System.out.println(powerConsumption);	
+		 return powerconsumptioneService.addPowerDetails(powerConsumption);
+		
+	 }
 	
 }
