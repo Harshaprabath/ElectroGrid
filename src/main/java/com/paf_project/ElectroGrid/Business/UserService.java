@@ -105,8 +105,9 @@ public class UserService
 			st.setString(3, user.getNic());
 			st.setString(4, user.getAddress());
 			st.setInt(5, user.getPhone());
-			st.setString(6, user.getEmail());
-			st.setString(7, user.getPassword());
+			st.setString(6, user.getPassword());
+			st.setString(7, user.getEmail());
+			
 
 			st.executeUpdate();
 			
@@ -117,6 +118,29 @@ public class UserService
 			System.out.println(e);
 		}
 	}
+	
+	/*public void updateUser (User user) 
+	{
+		String sql = "update user set id=?, name=?, nic=?, address=?, phone=?, password=?, email=?" ;
+		{
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, user.getUserId());
+			st.setString(2, user.getName());
+			st.setString(3, user.getNic());
+			st.setString(4, user.getAddress());
+			st.setInt(5, user.getPhone());
+			st.setString(6, user.getEmail());
+			st.setString(7, user.getPassword());
+
+			st.executeUpdate();
+			
+			
+		}
+		catch (Exception e)		
+		{
+			System.out.println(e);
+		}
+	}*/
 
 	
 	
