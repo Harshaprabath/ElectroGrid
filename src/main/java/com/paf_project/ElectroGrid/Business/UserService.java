@@ -135,8 +135,7 @@ public class UserService
 			st.setInt(7, user.getUserId());
 			
 
-			st.executeUpdate();
-			
+			st.executeUpdate();			
 			
 		}
 		catch(Exception e)
@@ -144,6 +143,8 @@ public class UserService
 			System.out.println(e);
 		}
 	}
+	
+	
 	 	
 	
 }
