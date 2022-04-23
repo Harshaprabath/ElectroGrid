@@ -5,57 +5,118 @@ import java.util.List;
 
 import com.paf_project.ElectroGrid.Model.User;
 
+import java.sql.*;
+
 public class UserService 
 {
+			
+	Connection con =  null;
 	
-	List<User> users;
-	
-	public UserService() {
+	public UserService() 
+	{
+		String url = "jdbc:mysql://localhost:3306/electrogriddb";
+		String username = "root";
+		String password = "12345";
 		
-		users = new ArrayList<>();
-		
-		User user = new User();
-		  user.setUserId(1);
-		  user.setName("Amal");
-		  user.setNic("123");
-		  user.setAddress("Malabe");
-		  user.setPhone(1234);
-		  user.setEmail("amal@gmail.com");
-		  user.setPassword("123");
-		  
-		  User user1 = new User();
-		  user1.setUserId(2);
-		  user1.setName("Kamal");
-		  user1.setNic("321");
-		  user1.setAddress("Kaduwela");
-		  user1.setPhone(4321);
-		  user1.setEmail("kamal@gmail.com");
-		  user1.setPassword("321");
-		  
-		  users.add(user);
-		  users.add(user1);
-		
+		try 
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			con = DriverManager.getConnection(url,username,password);
+		}
+		catch (Exception e) 
+		{
+			System.out.println(e);
+		}
 	}
+		
+				
+
 	
 	public List<User> getUsers()
 	{
+		List<User> users = new ArrayList<>();
+		String sql = "select * from user";
+		try
+		{
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next())
+			{
+				User user = new User();
+				user.setUserId(rs.getInt(1));
+				user.setName(rs.getString(2));
+				user.setNic(rs.getString(3));
+				user.setAddress(rs.getString(4));
+				user.setPhone(rs.getInt(5));
+				user.setEmail(rs.getString(6));
+				user.setEmail(rs.getString(7));
+				
+				users.add(user);
+			}
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+				
 		return users;
 	}	
 	
 	public User getUser(int userId)
 	{				
-		for (User user : users)
-		{
-			if (user.getUserId()==userId)
-				return user;
-		}
+		String sql = "select * from user where userId ="+userId;
+		User user = new User();
 		
-		return new User();		
+		try
+		{
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			if (rs.next())
+			{
+				
+				user.setUserId(rs.getInt(1));
+				user.setName(rs.getString(2));
+				user.setNic(rs.getString(3));
+				user.setAddress(rs.getString(4));
+				user.setPhone(rs.getInt(5));
+				user.setEmail(rs.getString(6));
+				user.setEmail(rs.getString(7));
+				
+				
+			}
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+				
+		return user;		
 	}
 
-	public void addUser(User user) {
-		
-		users.add(user);
+	public void addUser(User user) 
+	{
+		String sql = "insert into user values (?,?,?,?,?,?,?)";
+		try
+		{
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, user.getUserId());
+			st.setString(2, user.getName());
+			st.setString(3, user.getNic());
+			st.setString(4, user.getAddress());
+			st.setInt(5, user.getPhone());
+			st.setString(6, user.getEmail());
+			st.setString(7, user.getPassword());
+
+			st.executeUpdate();
+			
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
 	}
 
 	

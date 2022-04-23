@@ -12,6 +12,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
@@ -26,12 +27,18 @@ public class UserResource {
 	    public List <User> getUser()
 		{		  		  
 		  
-		  System.out.println("user called ");		  
-		 
-		//List <User> users = Arrays.asList(user,user1);
-		  
+		  System.out.println("user called ");		 
 		  return Uservice.getUsers();     																																																									  
 	    }
+	
+	@GET
+	@Path("getUser/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("id") int id)
+	{		  		  
+	  		 
+	  return Uservice.getUser(id);     																																																									  
+    }
 	
 	
 	@POST
