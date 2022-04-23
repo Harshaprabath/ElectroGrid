@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class User {
 
-	private String userId;
+	private int userId;
 	private String name;
 	private String nic;
 	private String address;
@@ -15,10 +15,10 @@ public class User {
 	
 	
 	
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public String getName() {
@@ -57,6 +57,13 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", name=" + name + ", nic=" + nic + ", address=" + address + ", phone="
+				+ phone + ", email=" + email + ", password=" + password + "]";
+	}
+	
+	
 	
 	
 	

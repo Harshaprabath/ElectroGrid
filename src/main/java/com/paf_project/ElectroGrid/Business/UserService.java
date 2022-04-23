@@ -15,7 +15,7 @@ public class UserService
 		users = new ArrayList<>();
 		
 		User user = new User();
-		  user.setUserId("1");
+		  user.setUserId(1);
 		  user.setName("Amal");
 		  user.setNic("123");
 		  user.setAddress("Malabe");
@@ -24,7 +24,7 @@ public class UserService
 		  user.setPassword("123");
 		  
 		  User user1 = new User();
-		  user1.setUserId("2");
+		  user1.setUserId(2);
 		  user1.setName("Kamal");
 		  user1.setNic("321");
 		  user1.setAddress("Kaduwela");
@@ -40,6 +40,24 @@ public class UserService
 	public List<User> getUsers()
 	{
 		return users;
+	}	
+	
+	public User getUser(int userId)
+	{				
+		for (User user : users)
+		{
+			if (user.getUserId()==userId)
+				return user;
+		}
+		
+		return new User();		
 	}
 
+	public void addUser(User user) {
+		
+		users.add(user);
+	}
+
+	
+	
 }

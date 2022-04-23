@@ -4,9 +4,13 @@ package com.paf_project.ElectroGrid;
 import java.util.Arrays;
 import java.util.List;
 
+import com.paf_project.ElectroGrid.Business.UserService;
 import com.paf_project.ElectroGrid.Model.User;
 
+import jakarta.validation.constraints.Past;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
@@ -14,32 +18,30 @@ import jakarta.ws.rs.core.MediaType;
 @Path("user")
 public class UserResource {
 	  
-		@GET
+	
+	UserService Uservice = new UserService();
+	
+	@GET
 	    @Produces(MediaType.APPLICATION_JSON)
-	    public List <User> getUser() 
+	    public List <User> getUser()
 		{		  		  
-		  User user = new User();
-		  user.setUserId("1");
-		  user.setName("Amal");
-		  user.setNic("123");
-		  user.setAddress("Malabe");
-		  user.setPhone(1234);
-		  user.setEmail("amal@gmail.com");
-		  user.setPassword("123");
 		  
-		  User user1 = new User();
-		  user1.setUserId("2");
-		  user1.setName("Kamal");
-		  user1.setNic("321");
-		  user1.setAddress("Kaduwela");
-		  user1.setPhone(4321);
-		  user1.setEmail("kamal@gmail.com");
-		  user1.setPassword("321");
+		  System.out.println("user called ");		  
+		 
+		//List <User> users = Arrays.asList(user,user1);
 		  
-		  
-		  List <User> users = Arrays.asList(user,user1);
-		  
-		  return users;       
+		  return Uservice.getUsers();     																																																									  
 	    }
+	
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("AddUser")
+	public User addUser(User user)
+	{		
+		 System.out.println(user);
+		 Uservice.addUser(user);
+		 return user;
+	}
 	
 }
