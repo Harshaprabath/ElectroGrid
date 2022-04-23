@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
@@ -51,9 +53,17 @@ public class PowerConsumptionResource {
 	 @Path ("add-powerDetails")
 	 @Consumes (MediaType.APPLICATION_JSON)
 	 public String addPowerDetails(PowerConsumption powerConsumption ) {
-		 System.out.println(powerConsumption);	
+		 	
 		 return powerconsumptioneService.addPowerDetails(powerConsumption);
 		
 	 }
+	 
+	 @DELETE
+	 @Path("delete/{id}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public String getUserById(@PathParam("id")int id) {
+		 
+		return powerconsumptioneService.deletePowerDetails(id);
+	}
 	
 }

@@ -76,12 +76,28 @@ public class PowerconsumptioneService {
 						+"Date: "+ java.time.LocalDate.now().toString()+"\n";
 				
 		} catch (Exception e) {
-			System.out.println("fff");
 			System.out.println(e);
 		}
 		
 		return response;
 	}
+	
+	public String deletePowerDetails(int id){
+		
+		String sql = "DELETE FROM `electrogriddb`.`powerconsumption` WHERE (`id` = ?)";
+		String response = null;
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1,	id);
+							
+			preparedStatement.executeUpdate();
+			response = "Succsessfuly deleted";		
+							
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return response; 
+	}	
 	
 	
 	public List<UnitValue> getAllUnitValue(){
@@ -112,7 +128,7 @@ public class PowerconsumptioneService {
 	
 	public String updateUnitValue(UnitValue uv){
 		
-		List<UnitValue> unitValues = new ArrayList<UnitValue>();
+		//List<UnitValue> unitValues = new ArrayList<UnitValue>();
 		String sql = "UPDATE `electrogriddb`.`unit_value` SET `upper_limit` = ?, `lower_limit` = ?, `current_price_per_unit` = ? WHERE (`id` = ?)";
 		String response = null;
 		try {
@@ -137,6 +153,7 @@ public class PowerconsumptioneService {
 		
 		return response ;
 	}
+	
 		
 	
 }
