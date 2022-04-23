@@ -1,22 +1,22 @@
 package com.paf_project.ElectroGrid.Model;
 
 
-import java.util.Date;
+
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
 public class PowerConsumption {
-	private String id;
+	private int id;
 	private String customer_ID;
 	private double value;
-	private Date date;
+	private String date;
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getCustomer_ID() {
@@ -31,10 +31,10 @@ public class PowerConsumption {
 	public void setValue(double value) {
 		this.value = value;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	 
