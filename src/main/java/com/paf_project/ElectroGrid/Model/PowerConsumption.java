@@ -11,7 +11,7 @@ public class PowerConsumption {
 	private String id;
 	private String customer_ID;
 	private double value;
-	private Date date;
+	private String date;
 
 	public String getId() {
 		return id;
@@ -31,10 +31,10 @@ public class PowerConsumption {
 	public void setValue(double value) {
 		this.value = value;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 	 
