@@ -119,29 +119,31 @@ public class UserService
 		}
 	}
 	
-	/*public void updateUser (User user) 
+	public void updateUser(User user) 
 	{
-		String sql = "update user set id=?, name=?, nic=?, address=?, phone=?, password=?, email=?" ;
+		String sql = "UPDATE `electrogriddb`.`user` SET `name` = ?, `nic` = ?, `address` = ?, `phone` = ?, `password` = ?, `email` = ? WHERE (`id` = ?);";
+		try
 		{
 			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, user.getUserId());
-			st.setString(2, user.getName());
-			st.setString(3, user.getNic());
-			st.setString(4, user.getAddress());
-			st.setInt(5, user.getPhone());
+			
+			st.setString(1, user.getName());
+			st.setString(2, user.getNic());
+			st.setString(3, user.getAddress());
+			st.setInt(4, user.getPhone());
+			st.setString(5, user.getPassword());
 			st.setString(6, user.getEmail());
-			st.setString(7, user.getPassword());
+			st.setInt(7, user.getUserId());
+			
 
 			st.executeUpdate();
 			
 			
 		}
-		catch (Exception e)		
+		catch(Exception e)
 		{
 			System.out.println(e);
 		}
-	}*/
-
-	
+	}
+	 	
 	
 }

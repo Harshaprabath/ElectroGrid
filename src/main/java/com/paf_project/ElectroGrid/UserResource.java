@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Past;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -50,5 +51,17 @@ public class UserResource {
 		 Uservice.addUser(user);
 		 return user;
 	}
+	
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("UpdateUser")
+	public User updateUser(User user)
+	{		
+		 System.out.println(user);
+		 Uservice.updateUser(user);
+		 return user;
+	}
+	
 	
 }
