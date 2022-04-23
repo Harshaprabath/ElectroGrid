@@ -9,7 +9,8 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class PowerConsumption {
 	private int id;
-	private String customer_ID;
+	private int customer_ID;
+	private int units;
 	private double value;
 	private String date;
 
@@ -19,11 +20,18 @@ public class PowerConsumption {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getCustomer_ID() {
+	public int getCustomer_ID() {
 		return customer_ID;
 	}
-	public void setCustomer_ID(String customer_ID) {
+	public void setCustomer_ID(int customer_ID) {
 		this.customer_ID = customer_ID;
+	}
+	
+	public int getUnits() {
+		return units;
+	}
+	public void setUnits(int units) {
+		this.units = units;
 	}
 	public double getValue() {
 		return value;
