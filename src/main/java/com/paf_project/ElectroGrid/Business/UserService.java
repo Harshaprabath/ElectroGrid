@@ -35,7 +35,7 @@ public class UserService
 	public List<User> getUsers()
 	{
 		List<User> users = new ArrayList<>();
-		String sql = "select * from user";
+		String sql = "select * from `electrogriddb`.`user`";
 		try
 		{
 			Statement st = con.createStatement();
@@ -65,7 +65,7 @@ public class UserService
 	
 	public User getUser(int userId)
 	{				
-		String sql = "select * from user where userId ="+userId;
+		String sql = "select * from user where userId = ?";
 		
 		User user = new User();		
 		try
@@ -96,7 +96,7 @@ public class UserService
 
 	public void addUser(User user) 
 	{
-		String sql = "insert into user values (?,?,?,?,?,?,?)";
+		String sql = "insert into `electrogriddb`.`user` values (?,?,?,?,?,?,?)";
 		try
 		{
 			PreparedStatement st = con.prepareStatement(sql);
@@ -121,7 +121,7 @@ public class UserService
 	
 	public void updateUser(User user) 
 	{
-		String sql = "UPDATE `electrogriddb`.`user` SET `name` = ?, `nic` = ?, `address` = ?, `phone` = ?, `password` = ?, `email` = ? WHERE (`id` = ?);";
+		String sql = "update `electrogriddb`.`user` set `name` = ?, `nic` = ?, `address` = ?, `phone` = ?, `password` = ?, `email` = ? where (`id` = ?);";
 		try
 		{
 			PreparedStatement st = con.prepareStatement(sql);
@@ -143,8 +143,46 @@ public class UserService
 			System.out.println(e);
 		}
 	}
+
+
+
+
+	public void deleteUser(int userId) 
+	{
+		String sql = "DELETE FROM `electrogriddb`.`user` WHERE (`id` = ?)";
+		try
+		{
+			PreparedStatement st = con.prepareStatement(sql);
+			
+			st.setInt(1, userId);
+			st.executeUpdate();			
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+		
+	}
+
 	
-	
-	 	
+	/*public String deleteUser(int userIid){
+		
+		String sql = "delete from `electrogriddb`.`user` where (`id` = ?)";
+		String response = null;
+		try {
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setInt(1,	userIid);
+							
+			preparedStatement.executeUpdate();
+			response = "Succsessfuly deleted";		
+							
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return response; 
+	}	*/
+		
 	
 }

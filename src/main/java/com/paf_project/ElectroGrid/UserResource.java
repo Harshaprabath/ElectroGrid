@@ -9,6 +9,7 @@ import com.paf_project.ElectroGrid.Model.User;
 
 import jakarta.validation.constraints.Past;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -33,18 +34,18 @@ public class UserResource {
 	    }
 	
 	@GET
-	@Path("getUser/{id}")
+	@Path("getUser/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("id") int id)
+    public User getUser(@PathParam("userId") int userId)
 	{		  		  
 	  		 
-	  return Uservice.getUser(id);     																																																									  
+	  return Uservice.getUser(userId);     																																																									  
     }
 	
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("AddUser")
+	@Path("addUser")
 	public User addUser(User user)
 	{		
 		 System.out.println(user);
@@ -55,7 +56,7 @@ public class UserResource {
 	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("UpdateUser")
+	@Path("updateUser")
 	public User updateUser(User user)
 	{		
 		 System.out.println(user);
@@ -70,7 +71,30 @@ public class UserResource {
 		 
 		 Uservice.updateUser(user);
 		 return user;
-	}
+	}	
+		
+	/*@DELETE
+	 @Path("delete/{userId}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public String getUserById(@PathParam("userId")int userId) 
+	{
+		 
+		return Uservice.deleteUser(userId);
+	}*/	
 	
+	
+	@DELETE
+	@Path("deleteUser/{userId}")
+	public User deleteUser(@PathParam("userId")int userId)
+	{
+		
+		User user = Uservice.getUser(userId);
+		
+		if(user.getUserId()!=0)
+		Uservice.deleteUser(userId);
+		
+		return user;
+		
+	}
 	
 }
