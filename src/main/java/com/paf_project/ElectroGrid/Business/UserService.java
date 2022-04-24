@@ -60,7 +60,7 @@ public class UserService
 				user.setAddress(rs.getString(4));
 				user.setPhone(rs.getInt(5));
 				user.setPassword(rs.getString(6));
-				user.setEmail(rs.getString(7));	
+				user.setEmail(rs.getString(7));
 				
 				users.add(user);
 			}
