@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.paf_project.ElectroGrid.Business.UserService;
+import com.paf_project.ElectroGrid.Model.PowerConsumption;
 import com.paf_project.ElectroGrid.Model.User;
 
 import jakarta.validation.constraints.Past;
@@ -73,14 +74,6 @@ public class UserResource {
 		 return user;
 	}	
 		
-	/*@DELETE
-	 @Path("delete/{userId}")
-	 @Produces(MediaType.APPLICATION_JSON)
-	 public String getUserById(@PathParam("userId")int userId) 
-	{
-		 
-		return Uservice.deleteUser(userId);
-	}*/	
 	
 	
 	@DELETE
@@ -91,5 +84,13 @@ public class UserResource {
 		return Uservice.deleteUser(userId);
 			
 	}
+	
+	 @GET
+	 @Path("test/{id}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public String getAllUserPowerConsumption(@PathParam("id")int userid) {
+		 
+		 return Uservice.getAllUserPowerConsumption(userid);
+     }
 	
 }

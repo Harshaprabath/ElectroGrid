@@ -3,35 +3,46 @@ package com.paf_project.ElectroGrid.Business;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.paf_project.ElectroGrid.DBcontext.DatabaseConnection;
+import com.paf_project.ElectroGrid.DBcontext.IDBContex;
+import com.paf_project.ElectroGrid.Model.PowerConsumption;
 import com.paf_project.ElectroGrid.Model.User;
 
 import java.sql.*;
 
 public class UserService 
 {
+	private Connection con = null;
+	private IDBContex dbContext;
+	private Statement st;
+	private ResultSet rs;
+	private static PreparedStatement preparedStatement = null;
 			
-	Connection con =  null;
+	//Connection con =  null;
 	
-	public UserService() 
-	{
-		String url = "jdbc:mysql://localhost:3306/electrogriddb";
+	public UserService()
+	{		
+		super();
+		this.dbContext = new DatabaseConnection();
+		this.con = dbContext.getDatabaseConnection();
+		
+		/*String url = "jdbc:mysql://localhost:3306/electrogriddb";
 		String username = "root";
 		String password = "12345";
 		
 		try 
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(url,username,password);
+			con = DriverManager.getConnection();
 		}
 		catch (Exception e) 
 		{
 			System.out.println(e);
-		}
+		} */
 	}
 		
-				
-
-	
+			
+	//GET ALL USER DETAILS
 	public List<User> getUsers()
 	{
 		List<User> users = new ArrayList<>();
@@ -63,6 +74,8 @@ public class UserService
 		return users;
 	}	
 	
+	
+	//GET A SINGLE USER DETAIL
 	public User getUser(int userId)
 	{				
 		String sql = "select * from user where userId = ?";
@@ -93,7 +106,9 @@ public class UserService
 				
 		return user;		
 	}
-
+	
+	
+	//ADD A NEW USER
 	public void addUser(User user) 
 	{
 		String sql = "insert into `electrogriddb`.`user` values (?,?,?,?,?,?,?)";
@@ -119,6 +134,8 @@ public class UserService
 		}
 	}
 	
+	
+	//UPDATE USER DETAILS
 	public void updateUser(User user) 
 	{
 		String sql = "update `electrogriddb`.`user` set `name` = ?, `nic` = ?, `address` = ?, `phone` = ?, `password` = ?, `email` = ? where (`id` = ?);";
@@ -146,7 +163,7 @@ public class UserService
 
 
 
-
+	//DELETE A USER
 	public String deleteUser(int userId) 
 	{
 		String sql = "DELETE FROM `electrogriddb`.`user` WHERE (`id` = ?)";
@@ -186,6 +203,64 @@ public class UserService
 		}
 		return response; 
 	}	*/
+	
+	
+	//microservice userService --> powerConSumption_service
+	public String getAllUserPowerConsumption(int userId) {
 		
+		String response = null ;
+		
+		//PowerconsumptioneService use 
+		PowerconsumptioneService powerconsumptioneService = new PowerconsumptioneService();
+		List<PowerConsumption> powerConsumptions = powerconsumptioneService.getAllUserPowerConsumption(userId);
+		
+		if(powerConsumptions != null) {
+			
+			for (int counter = 0; counter < powerConsumptions.size(); counter++)
+			{
+			           response = "Customer Name: "+getUerName(userId)+"\n" 
+			        		   	  +"Customer ID: "+ powerConsumptions.get(counter).getCustomer_ID()+"\n"
+								  +"Upper Limit: "+ powerConsumptions.get(counter).getUnits()+"\n" 
+					              +"Lower Limit: "+ powerConsumptions.get(counter).getValue()+"\n" 
+					              +"Current Price: "+ powerConsumptions.get(counter).getDate()+"\n";
+			}
+		}else {
+			
+			response = "Customer Name: "+getUerName(userId)+"\n" + "No such a record";
+		}
+		
+		
+		return response;
+		
+	}
+	
+	public String getUerName(int userId) 
+	{	
+		
+		String response = null ;
+		userId = 1;
+		String sql = " SELECT * FROM `electro_grid`.`user` WHERE (`id` = "+userId+");";
+		
+		try
+		{
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next())
+			{
+				
+				response = rs.getString(2);
+				
+			}
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+		
+		return response;
+	}
+	
 	
 }
