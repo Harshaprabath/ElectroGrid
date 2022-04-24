@@ -158,7 +158,7 @@ public class PowerconsumptioneService {
 	public List<PowerConsumption> getAllUserPowerConsumption(int id){
 				
 		List<PowerConsumption> powerConsumptions = new ArrayList<PowerConsumption>();
-		String sql = "SELECT * FROM powerconsumption WHERE (`id` = "+id+")";
+		String sql = "SELECT * FROM powerconsumption WHERE (`customer_ID` = "+id+")";
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);

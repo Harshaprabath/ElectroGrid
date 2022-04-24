@@ -86,9 +86,9 @@ public class UserResource {
 	}
 	
 	 @GET
-	 @Path("test/{id}")
+	 @Path("userpowerconsumption/{id}")
 	 @Produces(MediaType.APPLICATION_JSON)
-	 public String getAllUserPowerConsumption(@PathParam("id")int userid) {
+	 public List<String> getAllUserPowerConsumption(@PathParam("id")int userid) {
 		 
 		 return Uservice.getAllUserPowerConsumption(userid);
      }

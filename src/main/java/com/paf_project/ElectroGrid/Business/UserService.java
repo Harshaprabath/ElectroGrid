@@ -59,8 +59,8 @@ public class UserService
 				user.setNic(rs.getString(3));
 				user.setAddress(rs.getString(4));
 				user.setPhone(rs.getInt(5));
-				user.setEmail(rs.getString(6));
-				user.setEmail(rs.getString(7));
+				user.setPassword(rs.getString(6));
+				user.setEmail(rs.getString(7));	
 				
 				users.add(user);
 			}
@@ -78,7 +78,7 @@ public class UserService
 	//GET A SINGLE USER DETAIL
 	public User getUser(int userId)
 	{				
-		String sql = "select * from user where userId = ?";
+		String sql = "select * from user where Id = "+userId+";";
 		
 		User user = new User();		
 		try
@@ -93,7 +93,7 @@ public class UserService
 				user.setNic(rs.getString(3));
 				user.setAddress(rs.getString(4));
 				user.setPhone(rs.getInt(5));
-				user.setEmail(rs.getString(6));
+				user.setPassword(rs.getString(6));
 				user.setEmail(rs.getString(7));				
 				
 			}
@@ -206,9 +206,9 @@ public class UserService
 	
 	
 	//microservice userService --> powerConSumption_service
-	public String getAllUserPowerConsumption(int userId) {
+	public ArrayList<String> getAllUserPowerConsumption(int userId) {
 		
-		String response = null ;
+		ArrayList<String> response = new ArrayList<String>() ;
 		
 		//PowerconsumptioneService use 
 		PowerconsumptioneService powerconsumptioneService = new PowerconsumptioneService();
@@ -218,14 +218,14 @@ public class UserService
 			
 			for (int counter = 0; counter < powerConsumptions.size(); counter++)
 			{
-			           response = "Customer Name: "+getUerName(userId)+"\n" 
-			        		   	  +"Customer ID: "+ powerConsumptions.get(counter).getCustomer_ID()+"\n"
-					              +"Value: "+ powerConsumptions.get(counter).getValue()+"\n" 
-					              +"Date: "+ powerConsumptions.get(counter).getDate()+"\n";
+			           response.add("Customer Name: "+getUerName(userId)+" " 
+			        		   	  +"Customer ID: "+ powerConsumptions.get(counter).getCustomer_ID()+" "
+					              +"Value: "+ powerConsumptions.get(counter).getValue()+" " 
+					              +"Date: "+ powerConsumptions.get(counter).getDate()+" "); 
 			}
 		}else {
 			
-			response = "Customer Name: "+getUerName(userId)+"\n" + "No such a record";
+			response.add("Customer Name: "+getUerName(userId)+" " + "No such a record ");
 		}
 		
 		
