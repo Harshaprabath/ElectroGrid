@@ -47,11 +47,12 @@ public class StaffResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("AddStaff")
-	public Staff addStaff(Staff staff)
+	public String addStaff(Staff staff)
 	{		
-		 System.out.println(staff);
+		// System.out.println(staff);
 		 Sservice.addStaff(staff);
-		 return staff;
+		// return staff;
+		 return "Success";
 	}
 
 	 @PUT

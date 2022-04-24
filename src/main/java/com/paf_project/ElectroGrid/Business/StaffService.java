@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.paf_project.ElectroGrid.Model.Staff;
 
-public class StaffService 
+public class StaffService
 {
 	
 		
@@ -100,7 +100,8 @@ public class StaffService
 
 		public void addStaff(Staff staff) 
 		{
-			String sql = "insert into staff values (?,?,?,?,?,?,?)";
+			String sql = "insert into `electrogriddb`.`staff` values (?,?,?,?,?,?,?)";
+			//String sql = "insert into invoice_management (invoice_id,customer_id,customer_name,customer_type,pay_units,monthly_amount) values(?,?,?,?,?,?) ";
 			try
 			{
 				PreparedStatement st = con.prepareStatement(sql);
@@ -122,6 +123,8 @@ public class StaffService
 				System.out.println("error : " + e);
 			}
 		}
+		
+		
 		
 		public String updateStaff (Staff staff) 
 		{
