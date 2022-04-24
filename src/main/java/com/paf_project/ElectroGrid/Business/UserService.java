@@ -220,9 +220,8 @@ public class UserService
 			{
 			           response = "Customer Name: "+getUerName(userId)+"\n" 
 			        		   	  +"Customer ID: "+ powerConsumptions.get(counter).getCustomer_ID()+"\n"
-								  +"Upper Limit: "+ powerConsumptions.get(counter).getUnits()+"\n" 
-					              +"Lower Limit: "+ powerConsumptions.get(counter).getValue()+"\n" 
-					              +"Current Price: "+ powerConsumptions.get(counter).getDate()+"\n";
+					              +"Value: "+ powerConsumptions.get(counter).getValue()+"\n" 
+					              +"Date: "+ powerConsumptions.get(counter).getDate()+"\n";
 			}
 		}else {
 			
@@ -238,8 +237,8 @@ public class UserService
 	{	
 		
 		String response = null ;
-		userId = 1;
-		String sql = " SELECT * FROM `electro_grid`.`user` WHERE (`id` = "+userId+");";
+		
+		String sql = " SELECT * FROM `electrogriddb`.`user` WHERE (`id` = "+userId+");";
 		
 		try
 		{
