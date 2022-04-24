@@ -154,6 +154,33 @@ public class PowerconsumptioneService {
 		return response ;
 	}
 	
+	// microservices user service --> power consumption service
+	public List<PowerConsumption> getAllUserPowerConsumption(int id){
+				
+		List<PowerConsumption> powerConsumptions = new ArrayList<PowerConsumption>();
+		String sql = "SELECT * FROM powerconsumption WHERE (`id` = "+id+")";
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+					PowerConsumption powerConsumption = new PowerConsumption();
+					powerConsumption.setId(resultSet.getInt(1));
+					powerConsumption.setCustomer_ID(resultSet.getInt(2));
+					powerConsumption.setValue(resultSet.getDouble(3));
+					powerConsumption.setDate(resultSet.getString(4));
+						
+										
+					powerConsumptions.add(powerConsumption);
+				}
+					
+		} catch (Exception e) {
+				System.out.println(e);
+		}
+				
+		return powerConsumptions;
+	}
+	
+	
 		
 	
 }

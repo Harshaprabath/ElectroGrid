@@ -65,5 +65,13 @@ public class PowerConsumptionResource {
 		 
 		return powerconsumptioneService.deletePowerDetails(id);
 	}
+	 
+	 @GET
+	 @Path("test/{id}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public List<PowerConsumption> getAllUserPowerConsumption(@PathParam("id")int id) {
+		 
+		 return powerconsumptioneService.getAllUserPowerConsumption(id);
+     }
 	
 }
