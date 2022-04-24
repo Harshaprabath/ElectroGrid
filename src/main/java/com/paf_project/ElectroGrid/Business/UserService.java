@@ -147,15 +147,18 @@ public class UserService
 
 
 
-	public void deleteUser(int userId) 
+	public String deleteUser(int userId) 
 	{
 		String sql = "DELETE FROM `electrogriddb`.`user` WHERE (`id` = ?)";
+		String response = null;
 		try
 		{
 			PreparedStatement st = con.prepareStatement(sql);
 			
 			st.setInt(1, userId);
-			st.executeUpdate();			
+			st.executeUpdate();	
+			
+			response = "Successfuly deleted";
 			
 		}
 		catch(Exception e)
@@ -163,7 +166,7 @@ public class UserService
 			System.out.println(e);
 		}
 		
-		
+		return response;
 	}
 
 	

@@ -85,16 +85,11 @@ public class UserResource {
 	
 	@DELETE
 	@Path("deleteUser/{userId}")
-	public User deleteUser(@PathParam("userId")int userId)
+	public String deleteUser(@PathParam("userId")int userId)
 	{
 		
-		User user = Uservice.getUser(userId);
-		
-		if(user.getUserId()!=0)
-		Uservice.deleteUser(userId);
-		
-		return user;
-		
+		return Uservice.deleteUser(userId);
+			
 	}
 	
 }
