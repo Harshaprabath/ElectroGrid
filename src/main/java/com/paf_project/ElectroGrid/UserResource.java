@@ -1,14 +1,11 @@
 package com.paf_project.ElectroGrid;
 
-
-import java.util.Arrays;
 import java.util.List;
 
 import com.paf_project.ElectroGrid.Business.UserService;
-import com.paf_project.ElectroGrid.Model.PowerConsumption;
+import com.paf_project.ElectroGrid.ViewModel.ResponseViewModel;
 import com.paf_project.ElectroGrid.Model.User;
 
-import jakarta.validation.constraints.Past;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -19,39 +16,37 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+
 @Path("user")
-public class UserResource {
-	  
+public class UserResource {	  
 	
 	UserService Uservice = new UserService();
+	
 	
 	@GET
 	    @Produces(MediaType.APPLICATION_JSON)
 	    public List <User> getUser()
-		{		  		  
-		  
+		{		  
 		  System.out.println("user called ");		 
 		  return Uservice.getUsers();     																																																									  
 	    }
 	
+	
 	@GET
 	@Path("getUser/{userId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("userId") int userId)
+	@Produces(MediaType.APPLICATION_JSON)
+	public User getUser(@PathParam("userId") int userId)
 	{		  		  
-	  		 
-	  return Uservice.getUser(userId);     																																																									  
+	 	  return Uservice.getUser(userId);     																																																									  
     }
 	
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("addUser")
-	public User addUser(User user)
+	public ResponseViewModel addUser(User user)
 	{		
-		 System.out.println(user);
-		 Uservice.addUser(user);
-		 return user;
+		 return Uservice.addUser(user);
 	}
 	
 	
@@ -71,26 +66,25 @@ public class UserResource {
 		 }
 		 
 		 Uservice.updateUser(user);
+		 
 		 return user;
 	}	
 		
 	
-	
 	@DELETE
 	@Path("deleteUser/{userId}")
-	public String deleteUser(@PathParam("userId")int userId)
-	{
-		
-		return Uservice.deleteUser(userId);
-			
+	public ResponseViewModel deleteUser(@PathParam("userId")int userId)
+	{		
+		return Uservice.deleteUser(userId);			
 	}
+	
 	
 	 @GET
 	 @Path("userpowerconsumption/{id}")
 	 @Produces(MediaType.APPLICATION_JSON)
-	 public List<String> getAllUserPowerConsumption(@PathParam("id")int userid) {
-		 
-		 return Uservice.getAllUserPowerConsumption(userid);
+	 public List<String> getAllUserPowerConsumption(@PathParam("id")int userid)
+	 {
+		return Uservice.getAllUserPowerConsumption(userid);		 
      }
 	
 }
