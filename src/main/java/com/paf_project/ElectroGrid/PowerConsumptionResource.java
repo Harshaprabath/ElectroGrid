@@ -17,9 +17,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-
-
-
 @Path("powerconsumption")
 public class PowerConsumptionResource {
 	
@@ -30,6 +27,7 @@ public class PowerConsumptionResource {
 	 public List<PowerConsumption> getAll() {
 		 
 		 return powerconsumptioneService.getAll();
+		 
      }
 	 
 	 @GET
@@ -38,6 +36,7 @@ public class PowerConsumptionResource {
 	 public List<UnitValue> getAllUnitValue() {
 		 
 		 return powerconsumptioneService.getAllUnitValue();
+		 
      }
 	 
 	 @PUT
@@ -64,14 +63,7 @@ public class PowerConsumptionResource {
 	 public String getUserById(@PathParam("id")int id) {
 		 
 		return powerconsumptioneService.deletePowerDetails(id);
+		
 	}
-	 
-	 @GET
-	 @Path("test/{id}")
-	 @Produces(MediaType.APPLICATION_JSON)
-	 public List<PowerConsumption> getAllUserPowerConsumption(@PathParam("id")int id) {
-		 
-		 return powerconsumptioneService.getAllUserPowerConsumption(id);
-     }
-	
+	 	
 }
