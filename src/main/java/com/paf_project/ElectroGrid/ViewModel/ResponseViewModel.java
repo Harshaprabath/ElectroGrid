@@ -1,4 +1,4 @@
-package com.paf_project.ElectroGrid.Model;
+package com.paf_project.ElectroGrid.ViewModel;
 
 public class ResponseViewModel {
 	

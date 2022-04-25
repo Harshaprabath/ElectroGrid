@@ -6,7 +6,7 @@ import java.util.List;
 import com.paf_project.ElectroGrid.DBcontext.DatabaseConnection;
 import com.paf_project.ElectroGrid.DBcontext.IDBContex;
 import com.paf_project.ElectroGrid.Model.PowerConsumption;
-import com.paf_project.ElectroGrid.Model.ResponseViewModel;
+import com.paf_project.ElectroGrid.ViewModel.ResponseViewModel;
 import com.paf_project.ElectroGrid.Model.User;
 
 import java.sql.*;

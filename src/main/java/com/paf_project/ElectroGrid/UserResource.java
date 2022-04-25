@@ -3,7 +3,7 @@ package com.paf_project.ElectroGrid;
 import java.util.List;
 
 import com.paf_project.ElectroGrid.Business.UserService;
-import com.paf_project.ElectroGrid.Model.ResponseViewModel;
+import com.paf_project.ElectroGrid.ViewModel.ResponseViewModel;
 import com.paf_project.ElectroGrid.Model.User;
 
 import jakarta.ws.rs.Consumes;
