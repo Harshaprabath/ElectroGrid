@@ -15,35 +15,44 @@ public class PowerConsumptionUnitsValue {
 	private IDBContex dbContext;
 	private Statement statement;
 	private ResultSet resultSet;
-	private static PreparedStatement preparedStatement = null;
+	
 	
 	public PowerConsumptionUnitsValue() {
 		super();
-		this.dbContext = new DatabaseConnection();
+		
+		this.dbContext  = new DatabaseConnection();
 		this.connection = dbContext.getDatabaseConnection();
 		
 	}
 	
+	//get limits and per units value
     public ArrayList<Double> getLimitsValue() {
     	
     	ArrayList<Double> calDetails = new ArrayList<Double>();
-		String sql = "SELECT * FROM unit_value";
-		try {
+		
+    	//quarry
+    	String sql = "SELECT * FROM unit_value";
+		
+    	try {
 			
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+		    statement = connection.createStatement();
+		    resultSet = statement.executeQuery(sql);
+		    
 			while (resultSet.next()) {
 				
-				//upper
+				//upper limit
 				calDetails.add((double) resultSet.getInt(2));
-				//lower
+				
+				//lower limit
 				calDetails.add((double)resultSet.getInt(3));
+				
 				//current unit price
 				calDetails.add(resultSet.getDouble(4));
 					
 			}
 				
 		} catch (Exception e) {
+			
 				System.out.println(e);
 		}
 			
@@ -51,17 +60,21 @@ public class PowerConsumptionUnitsValue {
 		
 	}
     
-	
+    //calculate current price
 	public double calUnitsValue(int units) {
 		
-		ArrayList<Double> calDetails = getLimitsValue();
-		double index= units - calDetails.get(0);
+		ArrayList<Double> unitsDetails = getLimitsValue();
+		
+		double remender = units - unitsDetails.get(0);
 		double unitsValue ;
-		if(index > 0) {
-			unitsValue = (calDetails.get(0)* calDetails.get(2)) + (index *calDetails.get(5));
+		
+		if(remender > 0) {
+			
+			unitsValue = (unitsDetails.get(0)* unitsDetails.get(2)) + (remender *unitsDetails.get(5));
 			
 		}else {
-			unitsValue = (calDetails.get(0)* calDetails.get(2));
+			
+			unitsValue = (unitsDetails.get(0)* unitsDetails.get(2));
 		}
 		
 		return unitsValue;

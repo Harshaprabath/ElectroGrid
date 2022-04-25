@@ -23,92 +23,121 @@ public class PowerconsumptioneService {
 	
 	public PowerconsumptioneService() {
 		super();
+		
 		this.dbContext = new DatabaseConnection();
 		this.connection = dbContext.getDatabaseConnection();
 		
 	}
 	
-	//get all power consumption
+	//retrieve all power consumption
 	public List<PowerConsumption> getAll(){
 			
 		List<PowerConsumption> powerConsumptions = new ArrayList<PowerConsumption>();
+		
 		String sql = "SELECT * FROM powerconsumption";
+		
 		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			
 			while (resultSet.next()) {
+				
 					PowerConsumption powerConsumption = new PowerConsumption();
+					
 					powerConsumption.setId(resultSet.getInt(1));
 					powerConsumption.setCustomer_ID(resultSet.getInt(2));
 					powerConsumption.setValue(resultSet.getDouble(3));
 					powerConsumption.setDate(resultSet.getString(4));
 					
-									
 					powerConsumptions.add(powerConsumption);
+					
 				}
 				
 		} catch (Exception e) {
+			
 				System.out.println(e);
 		}
 			
 		return powerConsumptions;
 	}
 	
-	
+	// insert power details and calculate current value
 	public String addPowerDetails(PowerConsumption powerConsumption) {
-		PowerConsumptionUnitsValue pcu = new PowerConsumptionUnitsValue();
-		String response = null;
+		
+		PowerConsumptionUnitsValue powerConsumptionUnitsValue = new PowerConsumptionUnitsValue();
+		
+		String response;
 		
 		String sql = "insert into powerconsumption value (?,?,?,?)";
+		
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1,	powerConsumption.getId());
-			preparedStatement.setInt(2,	powerConsumption.getCustomer_ID());
-			preparedStatement.setDouble(3,	pcu.calUnitsValue(powerConsumption.getUnits()));
-			preparedStatement.setString(4,java.time.LocalDate.now().toString());
 			
-				
+			preparedStatement = connection.prepareStatement(sql);
+			
+			preparedStatement.setInt(1,powerConsumption.getId());
+			preparedStatement.setInt(2,powerConsumption.getCustomer_ID());
+			preparedStatement.setDouble(3,powerConsumptionUnitsValue.calUnitsValue(powerConsumption.getUnits()));
+			preparedStatement.setString(4,java.time.LocalDate.now().toString());
+							
 			preparedStatement.executeUpdate();
 			
 			response =  "successfuly inserted\n" 
 						+"Custermer ID: "+ powerConsumption.getCustomer_ID()+"\n" 
-						+"Current Units Value: "+ pcu.calUnitsValue(powerConsumption.getUnits())+"\n"
+						+"Current Units Value: "+ powerConsumptionUnitsValue.calUnitsValue(powerConsumption.getUnits())+"\n"
 						+"Date: "+ java.time.LocalDate.now().toString()+"\n";
 				
 		} catch (Exception e) {
-			System.out.println(e);
+			
+			response = "error";
+			
 		}
 		
 		return response;
 	}
 	
+	//remove power details
 	public String deletePowerDetails(int id){
 		
 		String sql = "DELETE FROM `electrogriddb`.`powerconsumption` WHERE (`id` = ?)";
-		String response = null;
+		
+		String response;
+		
 		try {
+			
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1,	id);
 							
 			preparedStatement.executeUpdate();
+			
 			response = "Succsessfuly deleted";		
 							
 		} catch (Exception e) {
-			System.out.println(e);
+			
+			response = "error";
+			
 		}
+		
 		return response; 
+		
 	}	
 	
-	
+	// retrieve unite values and limits  
 	public List<UnitValue> getAllUnitValue(){
 			
 		List<UnitValue> unitValues = new ArrayList<UnitValue>();
+		
 		String sql = "SELECT * FROM unit_value";
+		
 		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			
 			while (resultSet.next()) {
+				
 				UnitValue unitValue = new UnitValue();
+				
 				unitValue.setId(resultSet.getString(1));
 				unitValue.setUpper_limit(resultSet.getInt(2));
 				unitValue.setLower_limit(resultSet.getInt(3));
@@ -116,23 +145,30 @@ public class PowerconsumptioneService {
 					
 									
 				unitValues.add(unitValue);
+				
 			}
 				
 		} catch (Exception e) {
+			
 			System.out.println(e);
+			
 		}
 			
 		return unitValues;
+		
 	}
 	
-	
+	//edit unite values and limits  
 	public String updateUnitValue(UnitValue uv){
-		
-		//List<UnitValue> unitValues = new ArrayList<UnitValue>();
+
 		String sql = "UPDATE `electrogriddb`.`unit_value` SET `upper_limit` = ?, `lower_limit` = ?, `current_price_per_unit` = ? WHERE (`id` = ?)";
-		String response = null;
+		
+		String response; 
+		
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			
+			preparedStatement = connection.prepareStatement(sql);
+			
 			preparedStatement.setInt(1,uv.getUpper_limit());
 			preparedStatement.setInt(2,uv.getLower_limit());
 			preparedStatement.setDouble(3,uv.getCurrent_price_per_unit());
@@ -147,40 +183,47 @@ public class PowerconsumptioneService {
 						+"Current Price: "+ uv.getCurrent_price_per_unit()+"\n";
 			
 		} catch (Exception e) {
-			System.out.println(e);
+			
+			response = "error";
 		}
 		
 		
 		return response ;
 	}
 	
-	// microservices user service --> power consumption service
+	// micro_services user service --> power consumption service
 	public List<PowerConsumption> getAllUserPowerConsumption(int id){
 				
 		List<PowerConsumption> powerConsumptions = new ArrayList<PowerConsumption>();
-		String sql = "SELECT * FROM powerconsumption WHERE (`id` = "+id+")";
+		
+		String sql = "SELECT * FROM powerconsumption WHERE (`customer_ID` = "+id+")";
+		
 		try {
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
+			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			
 			while (resultSet.next()) {
+				
 					PowerConsumption powerConsumption = new PowerConsumption();
+					
 					powerConsumption.setId(resultSet.getInt(1));
 					powerConsumption.setCustomer_ID(resultSet.getInt(2));
 					powerConsumption.setValue(resultSet.getDouble(3));
 					powerConsumption.setDate(resultSet.getString(4));
-						
-										
+															
 					powerConsumptions.add(powerConsumption);
+					
 				}
 					
 		} catch (Exception e) {
+			
 				System.out.println(e);
+				
 		}
 				
 		return powerConsumptions;
-	}
-	
-	
 		
-	
+	}
+		
 }

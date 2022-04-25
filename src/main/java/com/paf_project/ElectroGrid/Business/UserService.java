@@ -3,35 +3,46 @@ package com.paf_project.ElectroGrid.Business;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.paf_project.ElectroGrid.DBcontext.DatabaseConnection;
+import com.paf_project.ElectroGrid.DBcontext.IDBContex;
+import com.paf_project.ElectroGrid.Model.PowerConsumption;
 import com.paf_project.ElectroGrid.Model.User;
 
 import java.sql.*;
 
 public class UserService 
 {
+	private Connection con = null;
+	private IDBContex dbContext;
+	private Statement st;
+	private ResultSet rs;
+	private static PreparedStatement preparedStatement = null;
 			
-	Connection con =  null;
+	//Connection con =  null;
 	
-	public UserService() 
-	{
-		String url = "jdbc:mysql://localhost:3306/electrogriddb";
+	public UserService()
+	{		
+		super();
+		this.dbContext = new DatabaseConnection();
+		this.con = dbContext.getDatabaseConnection();
+		
+		/*String url = "jdbc:mysql://localhost:3306/electrogriddb";
 		String username = "root";
 		String password = "12345";
 		
 		try 
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection(url,username,password);
+			con = DriverManager.getConnection();
 		}
 		catch (Exception e) 
 		{
 			System.out.println(e);
-		}
+		} */
 	}
 		
-				
-
-	
+			
+	//GET ALL USER DETAILS
 	public List<User> getUsers()
 	{
 		List<User> users = new ArrayList<>();
@@ -48,8 +59,8 @@ public class UserService
 				user.setNic(rs.getString(3));
 				user.setAddress(rs.getString(4));
 				user.setPhone(rs.getInt(5));
-				user.setEmail(rs.getString(6));
-				user.setEmail(rs.getString(7));
+				user.setPassword(rs.getString(6));
+				user.setEmail(rs.getString(7));	
 				
 				users.add(user);
 			}
@@ -63,9 +74,11 @@ public class UserService
 		return users;
 	}	
 	
+	
+	//GET A SINGLE USER DETAIL
 	public User getUser(int userId)
 	{				
-		String sql = "select * from user where userId = ?";
+		String sql = "select * from user where Id = "+userId+";";
 		
 		User user = new User();		
 		try
@@ -80,7 +93,7 @@ public class UserService
 				user.setNic(rs.getString(3));
 				user.setAddress(rs.getString(4));
 				user.setPhone(rs.getInt(5));
-				user.setEmail(rs.getString(6));
+				user.setPassword(rs.getString(6));
 				user.setEmail(rs.getString(7));				
 				
 			}
@@ -93,7 +106,9 @@ public class UserService
 				
 		return user;		
 	}
-
+	
+	
+	//ADD A NEW USER
 	public void addUser(User user) 
 	{
 		String sql = "insert into `electrogriddb`.`user` values (?,?,?,?,?,?,?)";
@@ -119,6 +134,8 @@ public class UserService
 		}
 	}
 	
+	
+	//UPDATE USER DETAILS
 	public void updateUser(User user) 
 	{
 		String sql = "update `electrogriddb`.`user` set `name` = ?, `nic` = ?, `address` = ?, `phone` = ?, `password` = ?, `email` = ? where (`id` = ?);";
@@ -146,16 +163,19 @@ public class UserService
 
 
 
-
-	public void deleteUser(int userId) 
+	//DELETE A USER
+	public String deleteUser(int userId) 
 	{
 		String sql = "DELETE FROM `electrogriddb`.`user` WHERE (`id` = ?)";
+		String response = null;
 		try
 		{
 			PreparedStatement st = con.prepareStatement(sql);
 			
 			st.setInt(1, userId);
-			st.executeUpdate();			
+			st.executeUpdate();	
+			
+			response = "Successfuly deleted";
 			
 		}
 		catch(Exception e)
@@ -163,7 +183,7 @@ public class UserService
 			System.out.println(e);
 		}
 		
-		
+		return response;
 	}
 
 	
@@ -183,6 +203,63 @@ public class UserService
 		}
 		return response; 
 	}	*/
+	
+	
+	//microservice userService --> powerConSumption_service
+	public ArrayList<String> getAllUserPowerConsumption(int userId) {
 		
+		ArrayList<String> response = new ArrayList<String>() ;
+		
+		//PowerconsumptioneService use 
+		PowerconsumptioneService powerconsumptioneService = new PowerconsumptioneService();
+		List<PowerConsumption> powerConsumptions = powerconsumptioneService.getAllUserPowerConsumption(userId);
+		
+		if(powerConsumptions != null) {
+			
+			for (int counter = 0; counter < powerConsumptions.size(); counter++)
+			{
+			           response.add("Customer Name: "+getUerName(userId)+" " 
+			        		   	  +"Customer ID: "+ powerConsumptions.get(counter).getCustomer_ID()+" "
+					              +"Value: "+ powerConsumptions.get(counter).getValue()+" " 
+					              +"Date: "+ powerConsumptions.get(counter).getDate()+" "); 
+			}
+		}else {
+			
+			response.add("Customer Name: "+getUerName(userId)+" " + "No such a record ");
+		}
+		
+		
+		return response;
+		
+	}
+	
+	public String getUerName(int userId) 
+	{	
+		
+		String response = null ;
+		
+		String sql = " SELECT * FROM `electrogriddb`.`user` WHERE (`id` = "+userId+");";
+		
+		try
+		{
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while(rs.next())
+			{
+				
+				response = rs.getString(2);
+				
+			}
+			
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		
+		
+		return response;
+	}
+	
 	
 }
